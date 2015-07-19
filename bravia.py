@@ -2,6 +2,8 @@
 import sys, getopt
 import urllib2, base64, uuid
 import json
+# wol + SSDP
+import socket
 
 
 ###########################################################
@@ -152,7 +154,7 @@ def wakeonlan(ethernet_address):
 #
 ###########################################################
 def DISCOVER_via_SSDP ():
-	import socket, select, re
+	import select, re
 	SSDP_ADDR = "239.255.255.250";
 	SSDP_PORT = 1900;
 	SSDP_MX = 1;
@@ -323,6 +325,9 @@ def main():
 		else:
 			assert False, "unhandled option"
 
+	if wol:
+		wakeonlan(macaddr)
+		sys.exit()
 
 	# first request (AUTH 1)	
 	print "[*] AccessControl"
@@ -346,9 +351,6 @@ def main():
 		remote_control(cookie, verbose);
 		sys.exit()
 	
-	if wol:
-		wakeonlan(macaddr)
-		sys.exit()
 
 	print "[*] getPlayingContent"
 	resp = bravia_req_json(SONYIP, "80", "sony/avContent", jdata_build("getPlayingContentInfo", None), cookie);
