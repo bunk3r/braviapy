@@ -1,0 +1,178 @@
+GET /DIAL/apps/YouTube HTTP/1.1
+Origin: package:com.google.android.youtube
+Host: 192.168.1.72
+Connection: Keep-Alive
+User-Agent: com.google.android.youtube/10.25.57(Linux; U; Android 5.0; it_IT; SM-N9005 Build/LRX21V) gzip
+
+HTTP/1.1 200 OK
+Content-Type: text/xml;charset="utf-8"
+Content-Length: 184
+Connection: keep-alive
+ACCESS-CONTROL-ALLOW-ORIGIN: *
+Date: Tue, 21 Jul 2015 16:15:36 GMT
+
+<?xml version="1.0" encoding="UTF-8"?>
+<service xmlns="urn:dial-multiscreen-org:schemas:dial">
+  <name>YouTube</name>
+  <options allowStop="true"/>
+  <state>stopped</state>
+</service>
+
+GET /DIAL/apps/YouTube HTTP/1.1
+Origin: package:com.google.android.youtube
+Host: 192.168.1.72
+Connection: Keep-Alive
+User-Agent: com.google.android.youtube/10.25.57(Linux; U; Android 5.0; it_IT; SM-N9005 Build/LRX21V) gzip
+
+HTTP/1.1 200 OK
+Content-Type: text/xml;charset="utf-8"
+Content-Length: 184
+Connection: keep-alive
+ACCESS-CONTROL-ALLOW-ORIGIN: *
+Date: Tue, 21 Jul 2015 16:15:39 GMT
+
+<?xml version="1.0" encoding="UTF-8"?>
+<service xmlns="urn:dial-multiscreen-org:schemas:dial">
+  <name>YouTube</name>
+  <options allowStop="true"/>
+  <state>stopped</state>
+</service>
+
+GET /DIAL/apps/YouTube HTTP/1.1
+Origin: package:com.google.android.youtube
+Host: 192.168.1.72
+Connection: Keep-Alive
+User-Agent: com.google.android.youtube/10.25.57(Linux; U; Android 5.0; it_IT; SM-N9005 Build/LRX21V) gzip
+
+HTTP/1.1 200 OK
+Content-Type: text/xml;charset="utf-8"
+Content-Length: 215
+Connection: keep-alive
+ACCESS-CONTROL-ALLOW-ORIGIN: *
+Date: Tue, 21 Jul 2015 16:15:59 GMT
+
+<?xml version="1.0" encoding="UTF-8"?>
+<service xmlns="urn:dial-multiscreen-org:schemas:dial">
+  <name>YouTube</name>
+  <options allowStop="true"/>
+  <state>running</state>
+  <link rel="run" href="run"/>
+</service>
+
+GET /DIAL/apps/YouTube HTTP/1.1
+Origin: package:com.google.android.youtube
+Host: 192.168.1.72
+Connection: Keep-Alive
+User-Agent: com.google.android.youtube/10.25.57(Linux; U; Android 5.0; it_IT; SM-N9005 Build/LRX21V) gzip
+
+HTTP/1.1 200 OK
+Content-Type: text/xml;charset="utf-8"
+Content-Length: 342
+Connection: keep-alive
+ACCESS-CONTROL-ALLOW-ORIGIN: *
+Date: Tue, 21 Jul 2015 16:16:08 GMT
+
+<?xml version="1.0" encoding="UTF-8"?>
+<service xmlns="urn:dial-multiscreen-org:schemas:dial">
+  <name>YouTube</name>
+  <options allowStop="true"/>
+  <state>running</state>
+  <link rel="run" href="run"/>
+  <additionalData xmlns="http://www/youtube.com/dial">
+    <screenId>t8odkbemfrv0n1cu98v5veeg05</screenId>
+  </additionalData>
+</service>
+
+GET /DIAL/apps/YouTube HTTP/1.1
+Origin: package:com.google.android.youtube
+Host: 192.168.1.72
+Connection: Keep-Alive
+User-Agent: com.google.android.youtube/10.25.57(Linux; U; Android 5.0; it_IT; SM-N9005 Build/LRX21V) gzip
+
+HTTP/1.1 200 OK
+Content-Type: text/xml;charset="utf-8"
+Content-Length: 342
+Connection: keep-alive
+ACCESS-CONTROL-ALLOW-ORIGIN: *
+Date: Tue, 21 Jul 2015 16:16:19 GMT
+
+<?xml version="1.0" encoding="UTF-8"?>
+<service xmlns="urn:dial-multiscreen-org:schemas:dial">
+  <name>YouTube</name>
+  <options allowStop="true"/>
+  <state>running</state>
+  <link rel="run" href="run"/>
+  <additionalData xmlns="http://www/youtube.com/dial">
+    <screenId>t8odkbemfrv0n1cu98v5veeg05</screenId>
+  </additionalData>
+</service>
+
+GET /DIAL/apps/YouTube HTTP/1.1
+Origin: package:com.google.android.youtube
+Host: 192.168.1.72
+Connection: Keep-Alive
+User-Agent: com.google.android.youtube/10.25.57(Linux; U; Android 5.0; it_IT; SM-N9005 Build/LRX21V) gzip
+
+HTTP/1.1 200 OK
+Content-Type: text/xml;charset="utf-8"
+Content-Length: 184
+Connection: keep-alive
+ACCESS-CONTROL-ALLOW-ORIGIN: *
+Date: Tue, 21 Jul 2015 16:16:22 GMT
+
+<?xml version="1.0" encoding="UTF-8"?>
+<service xmlns="urn:dial-multiscreen-org:schemas:dial">
+  <name>YouTube</name>
+  <options allowStop="true"/>
+  <state>stopped</state>
+</service>
+
+GET /DIAL/apps/YouTube HTTP/1.1
+Origin: package:com.google.android.youtube
+Host: 192.168.1.72
+Connection: Keep-Alive
+User-Agent: com.google.android.youtube/10.25.57(Linux; U; Android 5.0; it_IT; SM-N9005 Build/LRX21V) gzip
+
+HTTP/1.1 200 OK
+Content-Type: text/xml;charset="utf-8"
+Content-Length: 184
+Connection: keep-alive
+ACCESS-CONTROL-ALLOW-ORIGIN: *
+Date: Tue, 21 Jul 2015 16:16:29 GMT
+
+<?xml version="1.0" encoding="UTF-8"?>
+<service xmlns="urn:dial-multiscreen-org:schemas:dial">
+  <name>YouTube</name>
+  <options allowStop="true"/>
+  <state>stopped</state>
+</service>
+
+GET /DIAL/apps/YouTube HTTP/1.1
+Origin: package:com.google.android.youtube
+Host: 192.168.1.72
+Connection: Keep-Alive
+User-Agent: com.google.android.youtube/10.25.57(Linux; U; Android 5.0; it_IT; SM-N9005 Build/LRX21V) gzip
+
+HTTP/1.1 200 OK
+Content-Type: text/xml;charset="utf-8"
+Content-Length: 184
+Connection: keep-alive
+ACCESS-CONTROL-ALLOW-ORIGIN: *
+Date: Tue, 21 Jul 2015 16:16:38 GMT
+
+<?xml version="1.0" encoding="UTF-8"?>
+<service xmlns="urn:dial-multiscreen-org:schemas:dial">
+  <name>YouTube</name>
+  <options allowStop="true"/>
+  <state>stopped</state>
+</service>
+
+GET /DIAL/apps/YouTube HTTP/1.1
+Origin: package:com.google.android.youtube
+Host: 192.168.1.72
+Connection: Keep-Alive
+User-Agent: com.google.android.youtube/10.25.57(Linux; U; Android 5.0; it_IT; SM-N9005 Build/LRX21V) gzip
+
+
+
+
