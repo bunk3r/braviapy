@@ -125,7 +125,7 @@ def bravia_upnp_unsubscribe( ip, port, url, sid):
 #	SEND UPNP REQUEST
 #
 ###########################################################
-def bravia_upnp_req( ip, port, url, service="urn:schemas-upnp-org:service:RenderingControl:1", action="SetMute", params ):
+def bravia_upnp_req( ip, port, url, params, service="urn:schemas-upnp-org:service:RenderingControl:1", action="SetMute"):
 
 	#action = 'SetMute'
 	#service = 'urn:schemas-upnp-org:service:RenderingControl:1'
@@ -399,7 +399,36 @@ def bravia_req_ircc( ip, port, url, params, cookie ):
 
 
 	
+###########################################################
+#
+#	SEND DIAL - UPNP REQ (get status)
+#
+###########################################################
+def bravia_dial_status( ip, port, app="YouTube" ):
+
+	headers = {
+		'Origin':'package:com.google.android.youtube',
+		'Host':ip
+	}
+	method = "GET"
+	req = urllib2.Request('http://'+ip+':'+port+'/DIAL/apps/'+app, headers=headers)
+	req.get_method = lambda: method
 	
+	#print req.headers
+	
+	try:
+		response = urllib2.urlopen(req)
+	except urllib2.HTTPError, e:
+		print "[W] HTTPError: " + str(e.code)
+		
+	except urllib2.URLError, e:
+		print "[W] URLError: " + str(e.reason)
+		#sys.exit(1)
+	else:
+		tree = response.info().headers, response.read()
+		#print tree
+		return tree
+		
 	
 ###########################################################
 #
@@ -472,6 +501,9 @@ def main():
 		sys.exit()
 	
 
+	#
+	# JSON STUFF
+	#
 	print "[*] getPlayingContent"
 	resp = bravia_req_json(SONYIP, "80", "sony/avContent", jdata_build("getPlayingContentInfo", None), cookie);
 	#print json.dumps(resp.get('result'), indent=4)
@@ -483,12 +515,16 @@ def main():
 	if verbose:
 		print "RESULT: ", json.dumps(data), "\n"
 
+	raw_input()
+		
 	print "[*] getSystemInformation"
 	resp = bravia_req_json(SONYIP, "80", "sony/system", jdata_build("getSystemInformation", None), cookie);
 	if not resp.get('error'):
 		print json.dumps(resp.get('result'), indent=4)
 	else:
 		print "JSON request error", json.dumps(resp, indent=4)
+	
+	raw_input()
 	
 	print "[*] getNetworkSettings"
 	resp = bravia_req_json(SONYIP, "80", "sony/system", jdata_build("getNetworkSettings", None), cookie);
@@ -497,6 +533,8 @@ def main():
 	else:
 		print "JSON request error", json.dumps(resp, indent=4)
 
+	raw_input()
+		
 	print "[*] getMethodTypes"
 	resp = bravia_req_json(SONYIP, "80", "sony/system", jdata_build("getMethodTypes", "1.0"), cookie);
 	if not resp.get('error'):
@@ -505,13 +543,55 @@ def main():
 	else:
 		print "JSON request error", json.dumps(resp, indent=4)
 
+	raw_input()
+	
 	print "[*] getWolMode"
 	resp = bravia_req_json(SONYIP, "80", "sony/system", jdata_build("getWolMode", None), cookie);
 	if not resp.get('error'):
 		print json.dumps(resp.get('result'), indent=4)
 	else:
 		print "JSON request error", json.dumps(resp, indent=4)
+	
+	raw_input()
+	
+	#
+	# DIAL STUFF
+	#
+	print "[*] DIAL - YouTube status"
+	resp = bravia_dial_status( SONYIP, "80", "YouTube" )
+	print resp
+	raw_input()
+	
+	#
+	# UPNP STUFF
+	#
+	print "[*] UPNP - SUBSCRIBE test"
+	sid = bravia_upnp_subscribe(SONYIP, "52323", "RenderingControl");
+	if sid:
+		print sid
+	else:
+		print "no sid in response!"
+	raw_input()	
+	
+	# mute
+	print "[*] UPNP - SetMute 1 test"
+	upnp_req = "<InstanceID>0</InstanceID><Channel>Master</Channel><DesiredMute>1</DesiredMute>"
+	resp = bravia_upnp_req(SONYIP, "52323", "RenderingControl", upnp_req, "urn:schemas-upnp-org:service:RenderingControl:1", 'SetMute');
+	print resp
+	raw_input()
+	
+	# unmute
+	print "[*] UPNP - SetMute 0 test"
+	upnp_req = "<InstanceID>0</InstanceID><Channel>Master</Channel><DesiredMute>0</DesiredMute>"
+	resp = bravia_upnp_req(SONYIP, "52323", "RenderingControl", upnp_req, "urn:schemas-upnp-org:service:RenderingControl:1", 'SetMute');
+	print resp
+	raw_input()
 
-
+	print "[*] UPNP - UNSUBSCRIBE test"
+	resp = bravia_upnp_unsubscribe(SONYIP, "52323", "RenderingControl", sid);
+	print resp
+	#sys.exit()
+	raw_input()
+	
 if __name__ == "__main__":
 	main()
