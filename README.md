@@ -1,5 +1,5 @@
 # braviapy
-Bravia Television remote controller stuff (JSON, uPnp, etc), may be useful for piloting other Sony device too (WARNING - Still work in progress!)
+Bravia Television remote controller stuff (JSON, uPnp, DIAL, DLNA, etc), may be useful for piloting other devices too (WARNING - Still work in progress!)
 
 Take a look at the code, feel free to modify/reuse functions.
 
