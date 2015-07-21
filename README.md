@@ -1,6 +1,8 @@
 # braviapy
 Bravia Television remote controller stuff (JSON, uPnp, DIAL, DLNA, etc), may be useful for piloting other devices too (WARNING - Still work in progress!)
 
+If you need to call a uPnp SUBSCRIBE, launch first serv.py (listen on port 8000 waiting for NOTIFY back)
+
 Take a look at the code, feel free to modify/reuse functions.
 
 ```
