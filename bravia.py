@@ -48,7 +48,127 @@ def usage ():
 	print("Usage: %s (-h|--help) (-p|--pin <pin>) (-v|--verbose) (-d|--discover) (-w|--wol <macaddr>) (-r|--remote)" % sys.argv[0])
 
 	
+###########################################################
+#
+#	GET IP
+#
+###########################################################
+def get_local_IP():
+	s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+	s.connect(('8.8.8.8', 0))  # connecting to a UDP address doesn't send packets
+	local_ip_address = s.getsockname()[0]
+	return local_ip_address
+	
+	
+###########################################################
+#
+#	SEND XML UPNP SUBSCRIBE
+#
+###########################################################
+def bravia_upnp_subscribe( ip, port, url):
 
+	method = 'SUBSCRIBE'
+	req = urllib2.Request('http://'+ip+':'+port+'/upnp/event/'+url)  
+	req.add_header('NT', 'upnp:event')
+	req.add_header('Callback', '<http://'+get_local_IP()+':8000/>')
+	req.add_header('Timeout', 'Second-1800')
+
+	req.get_method = lambda: method
+	
+	try:
+		response = urllib2.urlopen(req)
+	except urllib2.HTTPError, e:
+		print "[W] HTTPError: " + str(e.code)
+		
+	except urllib2.URLError, e:
+		print "[W] URLError: " + str(e.reason)
+
+	else:
+		for h in response.info().headers:
+			if h.find("SID") > -1:
+				sid=h			
+		if sid:
+			sid = response.headers['SID']
+			return sid
+		return None
+		
+		
+###########################################################
+#
+#	SEND XML UPNP UNSUBSCRIBE
+#
+###########################################################
+def bravia_upnp_unsubscribe( ip, port, url, sid):
+
+	method = 'UNSUBSCRIBE'
+	req = urllib2.Request('http://'+ip+':'+port+'/upnp/event/'+url)  
+	req.add_header('SID', sid)
+	req.get_method = lambda: method
+	
+	try:
+		response = urllib2.urlopen(req)
+	except urllib2.HTTPError, e:
+		print "[W] HTTPError: " + str(e.code)
+		
+	except urllib2.URLError, e:
+		print "[W] URLError: " + str(e.reason)
+
+	else:
+		tree = response.info().headers, response.read()
+		#print tree
+		return tree
+
+
+
+###########################################################
+#
+#	SEND UPNP REQUEST
+#
+###########################################################
+def bravia_upnp_req( ip, port, url, service="urn:schemas-upnp-org:service:RenderingControl:1", action="SetMute", params ):
+
+	#action = 'SetMute'
+	#service = 'urn:schemas-upnp-org:service:RenderingControl:1'
+	
+	soap = 	'<?xml version="1.0"?>'\
+		'<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">'\
+		'<s:Body>'\
+		'<m:%s xmlns:m="%s">'\
+		'%s'\
+		'</m:%s>'\
+		'</s:Body>'\
+		'</s:Envelope>' % (action, service, params, action)
+	
+	host = ip+":"+port
+	headers = {
+		'Host':host,
+		'Content-length':len(soap),
+		'Content-Type':'text/xml; charset="utf-8"',
+		'SOAPAction':'"%s#%s"' % (service, action)
+	}
+	method = "POST"
+
+	req = urllib2.Request('http://'+ip+':'+port+'/upnp/control/'+url, data=soap, headers=headers)
+	req.get_method = lambda: method
+	
+	#print req.headers
+	#print req.data
+	
+	try:
+		response = urllib2.urlopen(req)
+	except urllib2.HTTPError, e:
+		print "[W] HTTPError: " + str(e.code)
+		
+	except urllib2.URLError, e:
+		print "[W] URLError: " + str(e.reason)
+		#sys.exit(1)
+	else:
+		tree = response.info().headers, response.read()
+		print tree
+		return tree
+
+
+		
 ###########################################################
 #
 #	Build JSON commands
@@ -153,12 +273,12 @@ def wakeonlan(ethernet_address):
 #	DISCOVER IP VIA SSDP PROTOCOL (UDP 1900 PORT)
 #
 ###########################################################
-def DISCOVER_via_SSDP ():
+def DISCOVER_via_SSDP (service = "urn:schemas-sony-com:service:ScalarWebAPI:1"):
 	import select, re
 	SSDP_ADDR = "239.255.255.250";
 	SSDP_PORT = 1900;
 	SSDP_MX = 1;
-	SSDP_ST = "urn:schemas-sony-com:service:ScalarWebAPI:1";
+	SSDP_ST = service;
 
 	ssdpRequest = "M-SEARCH * HTTP/1.1\r\n" + \
 		"HOST: %s:%d\r\n" % (SSDP_ADDR, SSDP_PORT) + \
@@ -318,7 +438,7 @@ def main():
 				print "Bravia NOT found!"
 			sys.exit()
 		elif o in ("-w", "--wol"):
-			#macaddr = a
+			macaddr = a
 			wol = True
 		elif o in ("-r", "--remote"):
 			remote = True
@@ -395,33 +515,3 @@ def main():
 
 if __name__ == "__main__":
 	main()
-
-	
-	
-###########################################################
-#
-#	END - OLD & TRASH
-#
-###########################################################
-#jdata_auth = json.dumps({"id":1,"method":"actRegister","version":"1.0","params":[{"clientid":CLIENTID,"nickname":NICKNAME},[{"clientid":CLIENTID,"value":"yes","nickname":NICKNAME,"function":"WOL"}]]})
-# pin passed
-#if len(sys.argv) == 2:
-#	pin = str(sys.argv[1])
-	#jdata_req = json.dumps({"method":"getMethodTypes","params":["1.0"],"id":1,"version":"1.0"})
-	#resp = bravia_req_json(SONYIP, "80", "sony/system", jdata_req, cookie);
-	#print "\n[*] getMethodTypes\n-----------------------------------\n", json.dumps(resp, indent=4)
-
-
-	# exit via IRCC
-	#ircc_req = "AAAAAQAAAAEAAABjAw=="
-	#print "[*] Sending IRCC command:", ircc_req
-	#resp = bravia_req_ircc(SONYIP, "80", "sony/IRCC", ircc_req, cookie);
-	#print resp
-
-
-	#jdata_req = json.dumps({"method":"getWolMode","params":[],"id":1,"version":"1.0"})
-	#print "-----------------------------------"
-	#print "[*] getWolMode"
-	#resp = bravia_req_json(SONYIP, "80", "sony/system", jdata_req, cookie);
-	#print json.dumps(resp.get('result'), indent=4)
-
