@@ -401,17 +401,25 @@ def bravia_req_ircc( ip, port, url, params, cookie ):
 	
 ###########################################################
 #
-#	SEND DIAL - UPNP REQ (get status)
+#	SEND DIAL - UPNP REQ
+#	methods
+#		GET 	= get status
+#		POST 	= start app
+#		DELETE	= stop app
 #
 ###########################################################
-def bravia_dial_status( ip, port, app="YouTube" ):
+def bravia_dial_req( ip, port, method = "GET", app="YouTube" ):
 
 	headers = {
 		'Origin':'package:com.google.android.youtube',
 		'Host':ip
 	}
-	method = "GET"
-	req = urllib2.Request('http://'+ip+':'+port+'/DIAL/apps/'+app, headers=headers)
+
+	url = app
+	if method == "DELETE":
+		url = app+"/run"
+
+	req = urllib2.Request('http://'+ip+':'+port+'/DIAL/apps/'+url, headers=headers)
 	req.get_method = lambda: method
 	
 	#print req.headers
@@ -558,7 +566,22 @@ def main():
 	# DIAL STUFF
 	#
 	print "[*] DIAL - YouTube status"
-	resp = bravia_dial_status( SONYIP, "80", "YouTube" )
+	resp = bravia_dial_req( SONYIP, "80", "GET", "YouTube" )
+	print resp
+	raw_input()
+	
+	print "[*] DIAL - YouTube start (on TV)"
+	resp = bravia_dial_req( SONYIP, "80", "POST", "YouTube" )
+	print resp
+	raw_input()
+
+	print "[*] DIAL - YouTube status"
+	resp = bravia_dial_req( SONYIP, "80", "GET", "YouTube" )
+	print resp
+	raw_input()
+
+	print "[*] DIAL - YouTube stop"
+	resp = bravia_dial_req( SONYIP, "80", "DELETE", "YouTube" )
 	print resp
 	raw_input()
 	
