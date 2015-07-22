@@ -374,6 +374,30 @@ def bravia_req_json( ip, port, url, params, cookie ):
 
 	
 	
+
+###########################################################
+#
+#	SEND APPLIST REQUEST via HTTP (cookie required)
+#
+###########################################################
+def bravia_applist( ip, port, url, params, cookie ):
+	req = urllib2.Request('http://'+ip+':'+port+'/'+url, params)
+	req.add_header('Cookie', cookie)
+	# applist requires GET not POST
+	if url == "DIAL/sony/applist":
+		req.get_method = lambda: 'GET'
+	try:
+		response = urllib2.urlopen(req)
+		
+	except urllib2.HTTPError, e:
+		print "[W] HTTPError: " + str(e.code)
+		
+	except urllib2.URLError, e:
+		print "[W] URLError: " + str(e.reason)
+		#sys.exit(1)
+
+	else:
+		return response.read()
 	
 ###########################################################
 #
@@ -514,12 +538,16 @@ def main():
 	#
 	print "[*] getPlayingContent"
 	resp = bravia_req_json(SONYIP, "80", "sony/avContent", jdata_build("getPlayingContentInfo", None), cookie);
-	#print json.dumps(resp.get('result'), indent=4)
 	data = resp['result']
 	for item in data:
-		print "Program Title:", item["programTitle"]
-		print "Title:", item["title"]
-		print "MediaType:", item["programMediaType"]
+		try:
+			print "Program Title:", item["programTitle"]
+			print "Title:", item["title"]
+			print "MediaType:", item["programMediaType"]
+		except KeyError:
+			print "key error"
+			print json.dumps(resp.get('result'), indent=4)
+			pass
 	if verbose:
 		print "RESULT: ", json.dumps(data), "\n"
 
@@ -562,6 +590,11 @@ def main():
 	
 	raw_input()
 	
+	print "[*] AppList!"
+	resp = bravia_applist(SONYIP, "80", "DIAL/sony/applist", "", cookie);
+	print resp
+	
+	raw_input()
 	#
 	# DIAL STUFF
 	#
