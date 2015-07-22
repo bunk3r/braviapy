@@ -1,5 +1,5 @@
 # braviapy
-Bravia Television remote controller stuff (JSON, uPnp, DIAL, DLNA, etc), may be useful for piloting other devices too (WARNING - Still work in progress!)
+Bravia Television remote control stuff (JSON, uPnp, DIAL, DLNA, etc), may be useful for piloting other devices too (WARNING - Still work in progress!)
 
 If you need to call a uPnp SUBSCRIBE, launch first serv.py (listen on port 8000 waiting for NOTIFY back)
 
@@ -43,14 +43,12 @@ $ ./bravia.py -v
 Registered!
 CLIENTID=TVSideView:eb1214c4-321d-47ab-948d-9b9ebb36354e
 NICKNAME=Nexus 7 (TV SideView)
-Cookie: auth=75f7f494196e6f02b3019030c8295df1969da5552b636aa9837777d580f7bbb4; path=/sony/; max-age=1209600; expires=Tue, 04-Aug-2015 17:33:33 GMT;
-
+Cookie: auth=ed06888a8b4f56bc47d61aaac6c8e93b044c936a87bd7342b10ff303717b2ebf; path=/sony/; max-age=1209600; expires=Wed, 05-Aug-2015 13:46:36 GMT;
 [*] getPlayingContent
-Program Title: Reazione a Catena
-Title: Rai 1
+Program Title: In diretta dalla Camera dei Deputati "Question Time" Interrogazioni a risposta i
+Title: Rai 2
 MediaType: tv
-RESULT:  [{"programTitle": "Reazione a Catena", "tripletStr": "318.1.3401", "title": "Rai 1", "durationSec": 4200, "uri": "tv:dvbt?trip=318.1.3401&srvName=Rai%201", "source": "tv:dvbt", "dispNum": "001", "startDateTime": "2015-07-21T18:50:00+0200", "programMediaType": "tv"}]
-
+RESULT:  [{"programTitle": "In diretta dalla Camera dei Deputati \"Question Time\" Interrogazioni a risposta i", "tripletStr": "318.1.3402", "title": "Rai 2", "durationSec": 4455, "uri": "tv:dvbt?trip=318.1.3402&srvName=Rai%202", "source": "tv:dvbt", "dispNum": "002", "startDateTime": "2015-07-22T15:00:00+0200", "programMediaType": "tv"}]
 
 [*] getSystemInformation
 [
@@ -64,7 +62,7 @@ RESULT:  [{"programTitle": "Reazione a Catena", "tripletStr": "318.1.3401", "tit
         "region": "ITA",
         "area": "ITA",
         "model": "KDL-50W705B",
-        "serial": "0101010"
+        "serial": "01010101"
     }
 ]
 
@@ -296,22 +294,28 @@ RESULT:  [{"programTitle": "Reazione a Catena", "tripletStr": "318.1.3401", "tit
 ]
 
 [*] DIAL - YouTube status
-(['Content-Type: text/xml;charset="utf-8"\r\n', 'Content-Length: 184\r\n', 'Connection: close\r\n', 'ACCESS-CONTROL-ALLOW-ORIGIN: *\r\n', 'Date: Tue, 21 Jul 2015 17:33:45 GMT\r\n'], '<?xml version="1.0" encoding="UTF-8"?>\n<service xmlns="urn:dial-multiscreen-org:schemas:dial">\n  <name>YouTube</name>\n  <options allowStop="true"/>\n  <state>stopped</state>\n</service>\n')
+(['Content-Type: text/xml;charset="utf-8"\r\n', 'Content-Length: 184\r\n', 'Connection: close\r\n', 'ACCESS-CONTROL-ALLOW-ORIGIN: *\r\n', 'Date: Wed, 22 Jul 2015 13:46:48 GMT\r\n'], '<?xml version="1.0" encoding="UTF-8"?>\n<service xmlns="urn:dial-multiscreen-org:schemas:dial">\n  <name>YouTube</name>\n  <options allowStop="true"/>\n  <state>stopped</state>\n</service>\n')
+
+[*] DIAL - YouTube start (on TV)
+(['Content-Length: 0\r\n', 'Connection: close\r\n', 'LOCATION: http://192.168.1.72/DIAL/apps/YouTube/run\r\n', 'ACCESS-CONTROL-ALLOW-ORIGIN: *\r\n', 'Date: Wed, 22 Jul 2015 13:46:59 GMT\r\n'], '')
+
+[*] DIAL - YouTube status
+(['Content-Type: text/xml;charset="utf-8"\r\n', 'Content-Length: 342\r\n', 'Connection: close\r\n', 'ACCESS-CONTROL-ALLOW-ORIGIN: *\r\n', 'Date: Wed, 22 Jul 2015 13:47:01 GMT\r\n'], '<?xml version="1.0" encoding="UTF-8"?>\n<service xmlns="urn:dial-multiscreen-org:schemas:dial">\n  <name>YouTube</name>\n  <options allowStop="true"/>\n  <state>running</state>\n  <link rel="run" href="run"/>\n  <additionalData xmlns="http://www/youtube.com/dial">\n    <screenId>t8odkbemfrv0n1cu98v5veeg05</screenId>\n  </additionalData>\n</service>\n')
+
+[*] DIAL - YouTube stop
+(['Content-Length: 0\r\n', 'Connection: close\r\n', 'ACCESS-CONTROL-ALLOW-ORIGIN: *\r\n', 'Date: Wed, 22 Jul 2015 13:47:04 GMT\r\n'], '')
 
 [*] UPNP - SUBSCRIBE test
-uuid:a591ea80-2fce-11e5-8000-fcf1527dc699
+uuid:253c5d70-3078-11e5-8000-fcf1527dc699
 
 [*] UPNP - SetMute 1 test
-(['Content-Length: 272\r\n', 'Content-Type: text/xml; charset="utf-8"\r\n', 'EXT: \r\n', 'Connection: close\r\n', 'Date: Tue, 21 Jul 2015 17:33:51 GMT\r\n', 'Server: Linux/2.6 UPnP/1.0 KDL-50W705B/1.7\r\n', 'X-AV-Server-Info: av=5.0; cn="Sony Corporation"; mn="BRAVIA KDL-50W705B"; mv="1.7";\r\n', 'X-AV-Physical-Unit-Info: pa="BRAVIA KDL-50W705B";\r\n'], '<?xml version="1.0"?><s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><s:Body><u:SetMuteResponse xmlns:u="urn:schemas-upnp-org:service:RenderingControl:1"></u:SetMuteResponse></s:Body></s:Envelope>')
-(['Content-Length: 272\r\n', 'Content-Type: text/xml; charset="utf-8"\r\n', 'EXT: \r\n', 'Connection: close\r\n', 'Date: Tue, 21 Jul 2015 17:33:51 GMT\r\n', 'Server: Linux/2.6 UPnP/1.0 KDL-50W705B/1.7\r\n', 'X-AV-Server-Info: av=5.0; cn="Sony Corporation"; mn="BRAVIA KDL-50W705B"; mv="1.7";\r\n', 'X-AV-Physical-Unit-Info: pa="BRAVIA KDL-50W705B";\r\n'], '<?xml version="1.0"?><s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><s:Body><u:SetMuteResponse xmlns:u="urn:schemas-upnp-org:service:RenderingControl:1"></u:SetMuteResponse></s:Body></s:Envelope>')
+(['Content-Length: 272\r\n', 'Content-Type: text/xml; charset="utf-8"\r\n', 'EXT: \r\n', 'Connection: close\r\n', 'Date: Wed, 22 Jul 2015 13:47:10 GMT\r\n', 'Server: Linux/2.6 UPnP/1.0 KDL-50W705B/1.7\r\n', 'X-AV-Server-Info: av=5.0; cn="Sony Corporation"; mn="BRAVIA KDL-50W705B"; mv="1.7";\r\n', 'X-AV-Physical-Unit-Info: pa="BRAVIA KDL-50W705B";\r\n'], '<?xml version="1.0"?><s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><s:Body><u:SetMuteResponse xmlns:u="urn:schemas-upnp-org:service:RenderingControl:1"></u:SetMuteResponse></s:Body></s:Envelope>')
 
 [*] UPNP - SetMute 0 test
-(['Content-Length: 272\r\n', 'Content-Type: text/xml; charset="utf-8"\r\n', 'EXT: \r\n', 'Connection: close\r\n', 'Date: Tue, 21 Jul 2015 17:33:52 GMT\r\n', 'Server: Linux/2.6 UPnP/1.0 KDL-50W705B/1.7\r\n', 'X-AV-Server-Info: av=5.0; cn="Sony Corporation"; mn="BRAVIA KDL-50W705B"; mv="1.7";\r\n', 'X-AV-Physical-Unit-Info: pa="BRAVIA KDL-50W705B";\r\n'], '<?xml version="1.0"?><s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><s:Body><u:SetMuteResponse xmlns:u="urn:schemas-upnp-org:service:RenderingControl:1"></u:SetMuteResponse></s:Body></s:Envelope>')
-(['Content-Length: 272\r\n', 'Content-Type: text/xml; charset="utf-8"\r\n', 'EXT: \r\n', 'Connection: close\r\n', 'Date: Tue, 21 Jul 2015 17:33:52 GMT\r\n', 'Server: Linux/2.6 UPnP/1.0 KDL-50W705B/1.7\r\n', 'X-AV-Server-Info: av=5.0; cn="Sony Corporation"; mn="BRAVIA KDL-50W705B"; mv="1.7";\r\n', 'X-AV-Physical-Unit-Info: pa="BRAVIA KDL-50W705B";\r\n'], '<?xml version="1.0"?><s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><s:Body><u:SetMuteResponse xmlns:u="urn:schemas-upnp-org:service:RenderingControl:1"></u:SetMuteResponse></s:Body></s:Envelope>')
+(['Content-Length: 272\r\n', 'Content-Type: text/xml; charset="utf-8"\r\n', 'EXT: \r\n', 'Connection: close\r\n', 'Date: Wed, 22 Jul 2015 13:47:12 GMT\r\n', 'Server: Linux/2.6 UPnP/1.0 KDL-50W705B/1.7\r\n', 'X-AV-Server-Info: av=5.0; cn="Sony Corporation"; mn="BRAVIA KDL-50W705B"; mv="1.7";\r\n', 'X-AV-Physical-Unit-Info: pa="BRAVIA KDL-50W705B";\r\n'], '<?xml version="1.0"?><s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"><s:Body><u:SetMuteResponse xmlns:u="urn:schemas-upnp-org:service:RenderingControl:1"></u:SetMuteResponse></s:Body></s:Envelope>')
 
 [*] UPNP - UNSUBSCRIBE test
-(['Connection: close\r\n', 'Date: Tue, 21 Jul 2015 17:33:53 GMT\r\n', 'Server: Linux/2.6 UPnP/1.0 KDL-50W705B/1.7\r\n', 'X-AV-Server-Info: av=5.0; cn="Sony Corporation"; mn="BRAVIA KDL-50W705B"; mv="1.7";\r\n', 'X-AV-Physical-Unit-Info: pa="BRAVIA KDL-50W705B";\r\n'], '')
+(['Connection: close\r\n', 'Date: Wed, 22 Jul 2015 13:47:13 GMT\r\n', 'Server: Linux/2.6 UPnP/1.0 KDL-50W705B/1.7\r\n', 'X-AV-Server-Info: av=5.0; cn="Sony Corporation"; mn="BRAVIA KDL-50W705B"; mv="1.7";\r\n', 'X-AV-Physical-Unit-Info: pa="BRAVIA KDL-50W705B";\r\n'], '')
 
-$
+$ 
 ```
-
