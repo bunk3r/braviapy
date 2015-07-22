@@ -164,7 +164,7 @@ def bravia_upnp_req( ip, port, url, params, service="urn:schemas-upnp-org:servic
 		#sys.exit(1)
 	else:
 		tree = response.info().headers, response.read()
-		print tree
+		#print tree
 		return tree
 
 
