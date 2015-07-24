@@ -397,7 +397,12 @@ def bravia_applist( ip, port, url, params, cookie ):
 		#sys.exit(1)
 
 	else:
-		return response.read()
+		# write to applist.xml
+		file = open ('applist.xml', 'w')
+		data = response.read()
+		file.write(data)
+		file.close()
+		return data
 	
 ###########################################################
 #
